@@ -1,0 +1,181 @@
+<div>
+  <div class="d-flex justify-content-center">
+    <div class="col-md-8">
+      <h1 data-cy="registerTitle">Rejestracja</h1>
+
+      @if (success) {
+        <div class="alert alert-success">
+          <strong>Rejestracja udała się!</strong> Wysłaliśmy do Ciebie email z linkiem do weryfikacji konta i prosimy abyś sprawdził swoją
+          skrzynkę pocztową.
+        </div>
+      }
+
+      @if (error) {
+        <div class="alert alert-danger"><strong>Rejestracja nieudana!</strong> Prosimy spróbować później.</div>
+      }
+
+      @if (errorUserExists) {
+        <div class="alert alert-danger"><strong>Użytkownik z taką nazwą już istnieje!</strong> Prosimy wybrać inną nazwę.</div>
+      }
+
+      @if (errorEmailExists) {
+        <div class="alert alert-danger"><strong>Ten adres email jest już zarejestrowany!</strong> Prosimy wybrać inny adres.</div>
+      }
+
+      @if (doNotMatch) {
+        <div class="alert alert-danger">Hasło i potwierdzenie nie zgadzają się!</div>
+      }
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="col-md-8">
+      @if (!success) {
+        <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm">
+          <div class="mb-3">
+            <label class="form-label" for="login">Nazwa użytkownika</label>
+            <input
+              type="text"
+              class="form-control"
+              id="login"
+              name="login"
+              placeholder="Twój login"
+              formControlName="login"
+              data-cy="username"
+              #login
+            />
+
+            @if (registerForm.get('login')!.invalid && (registerForm.get('login')!.dirty || registerForm.get('login')!.touched)) {
+              <div>
+                @if (registerForm.get('login')?.errors?.required) {
+                  <small class="form-text text-danger">Twój login jest wymagany.</small>
+                }
+
+                @if (registerForm.get('login')?.errors?.minlength) {
+                  <small class="form-text text-danger">Twój login musi mieć długość co najmniej 1 znaku</small>
+                }
+
+                @if (registerForm.get('login')?.errors?.maxlength) {
+                  <small class="form-text text-danger">Twój login nie może być dłuższy niż 50 znaków</small>
+                }
+
+                @if (registerForm.get('login')?.errors?.pattern) {
+                  <small class="form-text text-danger">Niewłaściwa nazwa użytkownika.</small>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Twój email"
+              formControlName="email"
+              data-cy="email"
+            />
+
+            @if (registerForm.get('email')!.invalid && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)) {
+              <div>
+                @if (registerForm.get('email')?.errors?.required) {
+                  <small class="form-text text-danger">Twój email jest wymagany.</small>
+                }
+
+                @if (registerForm.get('email')?.errors?.invalid) {
+                  <small class="form-text text-danger">Twój email jest błędny.</small>
+                }
+
+                @if (registerForm.get('email')?.errors?.minlength) {
+                  <small class="form-text text-danger">Twój email musi mieć przynajmniej 5 znaków</small>
+                }
+
+                @if (registerForm.get('email')?.errors?.maxlength) {
+                  <small class="form-text text-danger">Twój email nie może być dłuższy niż 50 znaków</small>
+                }
+
+
+                @if (registerForm.get('email')?.errors?.pattern) {
+                <br><small class="form-text text-danger">Twój email jest niepoprawny </small>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="password">Nowe hasło</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Nowe hasło"
+              formControlName="password"
+              data-cy="firstPassword"
+            />
+
+            @if (registerForm.get('password')!.invalid && (registerForm.get('password')!.dirty || registerForm.get('password')!.touched)) {
+              <div>
+                @if (registerForm.get('password')?.errors?.required) {
+                  <small class="form-text text-danger">Twoje hasło jest wymagane.</small>
+                }
+
+                @if (registerForm.get('password')?.errors?.minlength) {
+                  <small class="form-text text-danger">Twoje hasło powinno mieć minimum 4 znaki</small>
+                }
+
+                @if (registerForm.get('password')?.errors?.maxlength) {
+                  <small class="form-text text-danger">Twoje hasło nie może być dłuższe niż 50 znaków</small>
+                }
+              </div>
+            }
+
+            <jhi-password-strength-bar [passwordToCheck]="registerForm.get('password')!.value"></jhi-password-strength-bar>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="confirmPassword">Potwierdź nowe hasło</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Potwierdź nowe hasło"
+              formControlName="confirmPassword"
+              data-cy="secondPassword"
+            />
+
+            @if (
+              registerForm.get('confirmPassword')!.invalid &&
+              (registerForm.get('confirmPassword')!.dirty || registerForm.get('confirmPassword')!.touched)
+            ) {
+              <div>
+                @if (registerForm.get('confirmPassword')?.errors?.required) {
+                  <small class="form-text text-danger">Potwierdzenie hasła jest wymagane.</small>
+                }
+
+                @if (registerForm.get('confirmPassword')?.errors?.minlength) {
+                  <small class="form-text text-danger">Potwierdzenie hasła powinno mieć minimum 4 znaki</small>
+                }
+
+                @if (registerForm.get('confirmPassword')?.errors?.maxlength) {
+                  <small class="form-text text-danger">Potwierdzenie hasła nie powinno być dłuższe niż 50 znaków</small>
+                }
+              </div>
+            }
+          </div>
+
+          <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary" data-cy="submit">Zarejestruj</button>
+        </form>
+      }
+
+      <div class="mt-3 alert alert-warning">
+        <span>Masz już konto? </span>
+        <a class="alert-link" routerLink="/login">Zaloguj się!</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

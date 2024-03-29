@@ -1,0 +1,78 @@
+<h2>
+Lista książek
+</h2>
+<div align="right">
+<button class="btn btn-primary jh-create-entity" routerLink="/books/add">
+  <fa-icon icon="plus"></fa-icon> <span>Dodaj książkę</span>
+</button>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+        <th scope="col" jhiSortBy="id"><span>Lp.</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="title"><span>Tytuł</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="author"><span>Autor</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="publisher"><span>Wydawca</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="publicationYear"><span>Rok wydania</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="available"><span>Dostępność</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col"> AKCJE </th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let book of books">
+      <tr>
+        <td>
+          {{ book.id }}
+        </td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publisher}}</td>
+        <td>{{ book.publicationYear }}</td>
+        <td>
+          <button
+            *ngIf="book.available == true"
+            type="button"
+            class="btn btn-success btn-sm"
+            (click)="bringBook(book.id)">
+            <span > Dostępna </span>
+          </button>
+          <button
+            *ngIf="book.available == false"
+            type="button"
+            class="btn btn-danger btn-sm">
+            <span > Niedostępna </span>
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            >
+          <a routerLink="/books/delete" routerLinkActive="active">
+            <fa-icon icon="trash-can" [fixedWidth]="true"></fa-icon>
+            <span> DELETE</span>
+          </a>
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm">
+            <a  routerLink="/books/update" routerLinkActive="active">
+              <fa-icon icon="pencil" [fixedWidth]="true"></fa-icon>
+              <span>UPDATE</span>
+            </a>
+          </button>
+        </td>
+      </tr>
+      </ng-container>
+      </tbody>
+
+
+  </table>
+</div>
+
+
+
+
+
+

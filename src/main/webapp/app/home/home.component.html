@@ -1,0 +1,34 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title> home.title </title>
+</head>
+<div class="row">
+
+  <div class="col-md-9">
+    <h1 class="display-4"><span>Witamy, na stronie naszej biblioteki!</span></h1>
+
+
+    <div>
+      @if (account !== null) {
+        <div class="alert alert-success">
+          @if (account) {
+            <span id="home-logged-message">Jesteś zalogowany jako użytkownik &quot;{{ account.login }}&quot;.</span>
+          }
+        </div>
+      } @else {
+        <div class="alert alert-warning">
+          <span>Masz już konto?</span>
+          <a class="alert-link" (click)="login()">Zaloguj się!</a
+          >
+        </div>
+
+        <div class="alert alert-warning">
+          <span>Nie masz jeszcze konta?</span>&nbsp;
+          <a class="alert-link" routerLink="/account/register">Zarejestruj się</a>
+        </div>
+      }
+    </div>
+  </div>
+</div>
